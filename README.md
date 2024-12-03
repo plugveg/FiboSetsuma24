@@ -1,5 +1,6 @@
 ﻿# Fibonacci Thomas Siest - Setsuma
 ## MASTER 2 CYBER - 2024
+## Microsoft Tech - Monsieur G. Chervet 
 
 ### Description
 This project is a simple implementation of the Fibonacci sequence in Python. It is a recursive implementation of the Fibonacci sequence. 
