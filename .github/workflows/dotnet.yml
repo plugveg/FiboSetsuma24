@@ -47,12 +47,13 @@ jobs:
     - name: Run Unit test
       working-directory: ./tests/Leonardo.Tests
       run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage/opencover.xml
-    - name: Publish Fibonacci Nugget
+    - name: Publish Fibonacci to Nugget
       working-directory: ./src/Leonardo
-      run: 
+      if: github.ref == 'refs/heads/main'
+      run:
         dotnet pack -c Release -p:PackageVersion=${{ needs.tags.outputs.new_version }}
-        dotnet nuget push ./bin/Release/Leonardo.${{ needs.tags.outputs.new_version }}.nupkg --api-key ${{secrets.NUGGET_API_KEY}} --source https://api.nuget.org/v3/index.json
-        
+        dotnet nuget push ./bin/Release/Thomas.Siest.Fibonacci.${{ needs.tags.outputs.new_version }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
     - run: dotnet publish ./src/Leonardo.Web/Leonardo.Web.csproj --self-contained true --output ./win-x64/fibonacci -c Release -r win-x64 /p:PublishSingleFile=true
     - name: Upload WebApp Build Artifact
       uses: actions/upload-artifact@v3
