@@ -82,5 +82,5 @@ jobs:
        - name: Publish Docker
          if: github.ref == 'refs/heads/main'
          run: |
-           az group create --name FibonacciGithub --location northeurope
-           az container create -g FibonacciGithub --name fibo  --dns-name-label fibo2-chervet --image ghcr.io/guillaume-chervet/fibonacci:${{ needs.tags.outputs.new_version }} --environment-variables ASPNETCORE_URLS=http://*:8080 --ports 8080 --os-type Linux --cpu 1 --memory 1 
+           az group create --name FibonacciGithubSetsumafu --location northeurope
+           az container create -g FibonacciGithubSetsumafu --name fibo-github-setsumafu --dns-name-label fibo-github-setsumafu --image ghcr.io/plugveg/fibonacci:${{ needs.tags.outputs.new_version }} --environment-variables ASPNETCORE_URLS=http://*:8080 --ports 8080 --os-type Linux --cpu 1 --memory 1 
