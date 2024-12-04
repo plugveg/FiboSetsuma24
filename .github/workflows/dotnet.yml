@@ -79,7 +79,7 @@ jobs:
          uses: azure/login@v1
          with:
            creds: ${{secrets.AZURE_CREDENTIALS}}
-       - name: Publish Docker
+       - name: Publish Azure
          if: github.ref == 'refs/heads/main'
          run: |
            az group create --name FibonacciGithubSetsumafu --location northeurope
