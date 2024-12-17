@@ -2,7 +2,10 @@
 using System.Diagnostics;
 using Demo1;
 using Leonardo;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");   
 IConfiguration configuration = new ConfigurationBuilder() 
@@ -22,10 +25,22 @@ var applicationConfig = applicationSection.Get<ApplicationConfig>();
 Console.WriteLine($"Application Name : {applicationConfig?.Name}");   
 Console.WriteLine($"Application Message : {applicationConfig?.Message}");
 
+var services = new ServiceCollection();
+services.AddTransient<Fibonacci>(); 
+services.AddLogging(configure => configure.AddConsole());
+services.AddDbContext<FibonacciDataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+await using var serviceProvider = services.BuildServiceProvider();
+var logger = serviceProvider.GetService<ILogger<Program>>();    
+logger.LogInformation("Application Name : {ApplicationConfigName}", applicationConfig.Name);   
+logger.LogInformation("Application Message : {ApplicationConfigMessage}", applicationConfig.Message);  
+    
+    
+var fibonacci = serviceProvider.GetService<Fibonacci>();  
+
 var stopwatch = new Stopwatch();
 stopwatch.Start();
-await using FibonacciDataContext context = new();
-var results = await new Fibonacci(context).RunAsync(args);
+var results = await fibonacci.RunAsync(args);
 stopwatch.Stop();
 Console.WriteLine($"Elapsed time: {stopwatch.ElapsedMilliseconds}ms");
 foreach (var result in results)

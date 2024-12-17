@@ -13,3 +13,6 @@ CREATE TABLE [sch_fib].[T_Fibonacci](
     [FIB_Input] [int] NOT NULL,
     [FIB_Output] [bigint] NOT NULL,
     CONSTRAINT [PK_Fibonacci] PRIMARY KEY CLUSTERED ([FIB_Id]))
+
+SELECT * FROM sch_fib.T_Fibonacci
+GO
