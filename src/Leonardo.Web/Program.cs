@@ -12,10 +12,10 @@ await using FibonacciDataContext context = new();
 
 app.MapGet("/", () => "Hello Setsumafu!");
 
-app.MapGet("/fibonacci", async (Fibonacci fibonacci, ILogger<Program> logger) =>
+app.MapGet("/fibonacci/{number:int}", async (int number, Fibonacci fibonacci, ILogger<Program> logger) =>
 {
-    logger.LogInformation("Requesting Fibonacci");
-    var result = await fibonacci.RunAsync(["42"]);
+    logger.LogInformation("Requesting Fibonacci for number {Number}", number);
+    var result = await fibonacci.RunAsync([number.ToString()]);
     return Results.Json(result, FibonacciContext.Default.ListFibonacciResult);
 });
 
